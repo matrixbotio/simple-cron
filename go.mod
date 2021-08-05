@@ -1,3 +1,3 @@
-module github.com/Sagleft/simple-cron
+module github.com/sagleft/simple-cron
 
 go 1.16
