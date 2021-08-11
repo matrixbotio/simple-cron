@@ -14,6 +14,7 @@ type CronObject struct {
 	timerTime time.Duration
 	callback  CronCallback
 	stopCh    chan struct{}
+	paused    bool
 }
 
 // NewCronHandler - create new cron
@@ -28,6 +29,16 @@ func NewCronHandler(callback CronCallback, timerTime time.Duration) *CronObject 
 // Stop cron
 func (c *CronObject) Stop() {
 	c.stopCh <- struct{}{}
+}
+
+// Pause cron event exec
+func (c *CronObject) Pause() {
+	c.paused = true
+}
+
+// Resume cron event exec
+func (c *CronObject) Resume() {
+	c.paused = false
 }
 
 // CronCallback - cron callback /ᐠ｡‸｡ᐟ\
@@ -50,7 +61,9 @@ func (c *CronObject) Run(immediately ...bool) {
 	}()
 
 	for active {
-		c.callback()
+		if !c.paused {
+			c.callback()
+		}
 		time.Sleep(c.timerTime)
 	}
 }
