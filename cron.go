@@ -61,6 +61,9 @@ func (c *CronObject) Run(immediately ...bool) {
 	}()
 
 	for active {
+		if !active {
+			break
+		}
 		if !c.paused {
 			c.callback()
 		}
