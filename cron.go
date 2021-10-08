@@ -22,7 +22,7 @@ func NewCronHandler(callback CronCallback, timerTime time.Duration) *CronObject 
 	return &CronObject{
 		timerTime: timerTime,
 		callback:  callback,
-		stopCh:    make(chan struct{}),
+		stopCh:    make(chan struct{}, 1),
 	}
 }
 
