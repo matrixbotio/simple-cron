@@ -2,20 +2,23 @@ package simplecron
 
 import "time"
 
-type runTimeLimitHandler struct {
+// RunTimeLimitHandler - func runtime limit handler
+type RunTimeLimitHandler struct {
 	timeout time.Duration
 	runFunc func()
 }
 
-func newRuntimeLimitHandler(timeout time.Duration, runFunc func()) *runTimeLimitHandler {
-	return &runTimeLimitHandler{
+// NewRuntimeLimitHandler - create new func runtime limit handler
+func NewRuntimeLimitHandler(timeout time.Duration, runFunc func()) *RunTimeLimitHandler {
+	return &RunTimeLimitHandler{
 		timeout: timeout,
 		runFunc: runFunc,
 	}
 }
 
+// Run - run func & limit runtime.
 // returns: bool: true if time is up
-func (r *runTimeLimitHandler) run() bool {
+func (r *RunTimeLimitHandler) Run() bool {
 	timeTo := time.After(r.timeout)
 	done := make(chan bool, 1)
 
