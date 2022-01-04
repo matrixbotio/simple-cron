@@ -43,6 +43,11 @@ func (c *CronObject) Resume() {
 	c.paused = false
 }
 
+func (c *CronObject) awaitStop() {
+	<-c.stopCh
+	c.active = false
+}
+
 // CronCallback - cron callback /ᐠ｡‸｡ᐟ\
 type CronCallback func()
 
@@ -50,6 +55,9 @@ type CronCallback func()
 func (c *CronObject) Run(immediately ...bool) {
 	c.active = true
 	sleepAtStart := true
+
+	go c.awaitStop()
+
 	if len(immediately) > 0 && immediately[0] {
 		sleepAtStart = false
 	}
