@@ -1,6 +1,7 @@
 # simple-cron
+Library to run func by cron. Also to limit func runtime. Written in Golang
 
-usage example
+### usage example
 
 ```go
 var myfunc = func() {
