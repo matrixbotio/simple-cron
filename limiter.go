@@ -19,24 +19,20 @@ func NewRuntimeLimitHandler(timeout time.Duration, runFunc func()) *RunTimeLimit
 // Run - run func & limit runtime.
 // returns: bool: true if time is up
 func (r *RunTimeLimitHandler) Run() bool {
-	timeTo := time.After(r.timeout)
+	timer := time.NewTimer(r.timeout)
 	done := make(chan bool, 1)
 
 	go func() {
-		for {
-			select {
-			case <-timeTo:
-				done <- true
-				return
-			default:
-				// wait
-			}
-		}
+		<-timer.C
+		done <- true
 	}()
 
 	go func() {
 		r.runFunc()
 		done <- false
+		if !timer.Stop() {
+			<-timer.C
+		}
 		return
 	}()
 
