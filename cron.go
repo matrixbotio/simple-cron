@@ -38,6 +38,11 @@ func (c *CronObject) Pause() {
 	c.paused = true
 }
 
+// IsPaused - check cron is paused status
+func (c *CronObject) IsPaused() bool {
+	return c.paused
+}
+
 // Resume cron event exec
 func (c *CronObject) Resume() {
 	c.paused = false
