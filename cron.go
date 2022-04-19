@@ -29,8 +29,10 @@ func NewCronHandler(callback CronCallback, timerTime time.Duration) *CronObject 
 
 // Stop cron
 func (c *CronObject) Stop() {
-	c.active = false
-	c.stopCh <- struct{}{}
+	if c.active {
+		c.active = false
+		c.stopCh <- struct{}{}
+	}
 }
 
 // Pause cron event exec
