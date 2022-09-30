@@ -45,6 +45,11 @@ func (c *CronObject) IsPaused() bool {
 	return c.paused
 }
 
+// IsActive - check cron is not paused & is not stopped
+func (c *CronObject) IsActive() bool {
+	return !c.paused && c.active
+}
+
 // Resume cron event exec
 func (c *CronObject) Resume() {
 	c.paused = false
@@ -52,7 +57,6 @@ func (c *CronObject) Resume() {
 
 func (c *CronObject) awaitStop() {
 	<-c.stopCh
-	c.active = false
 }
 
 // CronCallback - cron callback /ᐠ｡‸｡ᐟ\
