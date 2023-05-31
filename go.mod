@@ -1,3 +1,3 @@
-module github.com/sagleft/simple-cron
+module github.com/matrixbotio/simple-cron
 
 go 1.16
