@@ -1,6 +1,7 @@
 package simplecron
 
 import (
+	"fmt"
 	"sync"
 	"time"
 )
@@ -26,6 +27,11 @@ func NewCronHandler(callback func(), timerTime time.Duration) *CronObject {
 
 func (c *CronObject) Stop() {
 	if c.active {
+		defer func() {
+			if r := recover(); r != nil {
+				fmt.Println("Recovered in Stop:", r)
+			}
+		}()
 		c.active = false
 		close(c.stopCh)
 		c.stopWG.Wait()

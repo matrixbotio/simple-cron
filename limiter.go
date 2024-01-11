@@ -33,7 +33,6 @@ func (r *RunTimeLimitHandler) Run() bool {
 		if !timer.Stop() {
 			<-timer.C
 		}
-		return
 	}()
 
 	return <-done
